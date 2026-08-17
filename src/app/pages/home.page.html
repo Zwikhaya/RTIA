@@ -1,0 +1,132 @@
+<section class="notice-ribbon">
+  <div class="container notice-ribbon__inner">
+    <span>Implementation update</span>
+    <p>AARTO Phase 2 implementation proceeds as scheduled.</p>
+    <a routerLink="/news/phase-2">Read the official update <b aria-hidden="true">↗</b></a>
+  </div>
+</section>
+
+<section class="home-hero">
+  <div class="home-hero__grid" aria-hidden="true"></div>
+  <div class="home-hero__road" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="container home-hero__content">
+    <div class="home-hero__copy">
+      <p class="eyebrow">{{ store.content().hero.eyebrow }}</p>
+      <h1>{{ store.content().hero.title }}<br><span>{{ store.content().hero.accent }}</span></h1>
+      <p class="lead">{{ store.content().hero.description }}</p>
+      <div class="hero-actions">
+        <a class="button button--gold" href="https://online.aarto.gov.za/" target="_blank" rel="noopener">Check my infringement <span>↗</span></a>
+        <a class="button button--outline" routerLink="/understand-aarto">Understand my options <span>→</span></a>
+      </div>
+      <div class="hero-trust"><span aria-hidden="true">✓</span><p><b>Official RTIA guidance</b><small>Secure services open on the AARTO platform</small></p></div>
+    </div>
+
+    <aside class="action-console" aria-labelledby="console-title">
+      <div class="action-console__top"><span>Citizen service desk</span><small>Quick access</small></div>
+      <h2 id="console-title">What do you need to do?</h2>
+      <div class="action-console__list">
+        @for (service of store.content().services.slice(0, 4); track service.id) {
+          <a [href]="service.route" [target]="service.external ? '_blank' : null" [rel]="service.external ? 'noopener' : null">
+            <span>{{ service.number }}</span><div><b>{{ service.title }}</b><small>{{ service.description }}</small></div><i aria-hidden="true">→</i>
+          </a>
+        }
+      </div>
+      <a class="action-console__all" routerLink="/services">View all AARTO services <span>↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<section class="impact-strip" aria-label="AARTO information highlights">
+  <div class="container impact-strip__grid">
+    @for (stat of store.content().impactStats; track stat.label) {
+      <article><strong>{{ stat.value }}</strong><div><b>{{ stat.label }}</b><span>{{ stat.detail }}</span></div></article>
+    }
+  </div>
+</section>
+
+<section class="section services-showcase">
+  <div class="container">
+    <div class="section-heading"><div><p class="eyebrow">Services built around the motorist</p><h2>One place to find your next step.</h2></div><a routerLink="/services">View all services <span>↗</span></a></div>
+    <div class="service-showcase-grid">
+      @for (service of featuredServices(); track service.id; let index = $index) {
+        <a class="premium-service-card" [class.premium-service-card--featured]="index === 0" [href]="service.route" [target]="service.external ? '_blank' : null" [rel]="service.external ? 'noopener' : null">
+          <div class="premium-service-card__top"><span>{{ service.number }}</span><i aria-hidden="true">{{ service.external ? '↗' : '→' }}</i></div>
+          <div><h3>{{ service.title }}</h3><p>{{ service.description }}</p></div>
+          <b>{{ service.action }}</b>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="journey-lab">
+  <div class="container journey-lab__grid">
+    <div class="journey-lab__intro"><p class="eyebrow">Your AARTO journey</p><h2>Tell us where you are.<br><span>We’ll show you what comes next.</span></h2><p>Select the stage that best describes your current position. This prototype guidance will later be supplied and approved through the RTIA content service.</p></div>
+    <div class="journey-lab__tool">
+      <div class="journey-tabs" role="tablist" aria-label="AARTO journey stages">
+        @for (step of store.content().journey; track step.id) {
+          <button type="button" role="tab" [class.active]="activeJourneyId() === step.id" [attr.aria-selected]="activeJourneyId() === step.id" (click)="selectJourney(step.id)"><span>{{ step.number }}</span>{{ step.title }}</button>
+        }
+      </div>
+      <article class="journey-result">
+        <div><span>Recommended next step</span><h3>{{ activeJourney().title }}</h3><p>{{ activeJourney().guidance }}</p></div>
+        <a [href]="activeJourney().actionRoute">{{ activeJourney().actionLabel }} <span>↗</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section intelligence-section">
+  <div class="container intelligence-grid">
+    <div class="latest-news">
+      <div class="section-heading section-heading--compact"><div><p class="eyebrow">Latest updates</p><h2>From RTIA</h2></div><a routerLink="/news">All updates ↗</a></div>
+      @for (article of store.content().news.slice(0, 3); track article.id; let first = $first) {
+        <a class="news-row" [class.news-row--featured]="first" [routerLink]="['/news', article.id]">
+          <span>{{ article.category }} · {{ article.date }}</span><h3>{{ article.title }}</h3><p>{{ article.excerpt }}</p><b>Read update ↗</b>
+        </a>
+      }
+    </div>
+    <div class="resource-command">
+      <div class="resource-command__visual"><span>Resource centre</span><strong>Official<br>documents.</strong><i aria-hidden="true">R</i></div>
+      <div class="resource-command__links">
+        @for (document of store.content().publications.slice(0, 4); track document.id) {
+          <a routerLink="/resources"><div><span>{{ document.category }}</span><b>{{ document.title }}</b></div><i aria-hidden="true">→</i></a>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section opportunity-home">
+  <div class="container">
+    <div class="section-heading"><div><p class="eyebrow">Opportunities with RTIA</p><h2>Build with us.<br>Grow with purpose.</h2></div><p class="section-heading__copy">Explore procurement opportunities, vacancies and development pathways—all structured for seamless future content management.</p></div>
+    <div class="opportunity-home__grid">
+      <article class="opportunity-panel opportunity-panel--tenders">
+        <header><div><span>Supplier opportunities</span><h3>Tenders & procurement</h3></div><b aria-hidden="true">SCM</b></header>
+        <div class="opportunity-panel__list">
+          @for (tender of featuredTenders(); track tender.id) {
+            <a routerLink="/tenders" [fragment]="tender.id"><span>{{ tender.reference }}</span><div><b>{{ tender.title }}</b><small>Closes {{ tender.closingDate }}</small></div><i aria-hidden="true">→</i></a>
+          }
+        </div>
+        <footer><span>Prototype tender records · CMS-ready</span><a routerLink="/tenders">View procurement opportunities ↗</a></footer>
+      </article>
+      <article class="opportunity-panel opportunity-panel--careers">
+        <header><div><span>Join the agency</span><h3>Careers at RTIA</h3></div><b aria-hidden="true">HR</b></header>
+        <div class="opportunity-panel__list">
+          @for (career of featuredCareers(); track career.id) {
+            <a routerLink="/careers" [fragment]="career.id"><span>{{ career.reference }}</span><div><b>{{ career.title }}</b><small>{{ career.location }} · {{ career.employmentType }}</small></div><i aria-hidden="true">→</i></a>
+          }
+        </div>
+        <footer><span>Prototype vacancy records · API-ready</span><a routerLink="/careers">Explore careers ↗</a></footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="safety-banner">
+  <div class="container safety-banner__inner">
+    <div class="safety-banner__mark" aria-hidden="true">!</div>
+    <div><p class="eyebrow">Protect yourself</p><h2>Use only official RTIA and AARTO channels.</h2><p>Do not share passwords, one-time PINs or banking credentials with anyone claiming to resolve an infringement on your behalf.</p></div>
+    <a routerLink="/contact">Verify a contact <span>↗</span></a>
+  </div>
+</section>

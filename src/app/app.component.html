@@ -1,0 +1,98 @@
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="gov-bar">
+  <div class="container gov-bar__inner">
+    <p><span class="gov-dot" aria-hidden="true"></span> Official website of the Road Traffic Infringement Agency</p>
+    <nav aria-label="Utility navigation">
+      <a routerLink="/contact">Contact RTIA</a>
+      <a routerLink="/resources">PAIA &amp; POPIA</a>
+      <button type="button" aria-label="Current language: English">EN</button>
+    </nav>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container masthead">
+    <a class="brand" routerLink="/" aria-label="RTIA home">
+      <img src="rtia-logo.jpg" alt="RTIA – Road Traffic Infringement Agency, Justice in Adjudication">
+    </a>
+
+    <div class="masthead__actions">
+      <button class="icon-button" type="button" (click)="openSearch()" aria-label="Search the RTIA website">
+        <span aria-hidden="true">⌕</span><small>Search</small>
+      </button>
+      <a class="portal-link" href="https://online.aarto.gov.za/" target="_blank" rel="noopener">
+        <span><small>Secure portal</small>AARTO online services</span><b aria-hidden="true">↗</b>
+      </a>
+      <button class="menu-button" type="button" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-controls="main-navigation">
+        <span aria-hidden="true">{{ menuOpen() ? '×' : '☰' }}</span><small>Menu</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="navigation-shell" [class.navigation-shell--open]="menuOpen()">
+    <nav id="main-navigation" class="container main-navigation" aria-label="Main navigation">
+      @for (item of store.content().navigation; track item.route) {
+        <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.route === '/' }">
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  </div>
+</header>
+
+@if (searchOpen()) {
+  <div class="search-overlay" role="dialog" aria-modal="true" aria-labelledby="search-title">
+    <button class="search-overlay__backdrop" type="button" (click)="closeSearch()" aria-label="Close search"></button>
+    <section class="search-drawer">
+      <div class="container search-drawer__inner">
+        <div>
+          <p class="eyebrow">Search RTIA</p>
+          <h2 id="search-title">What can we help you find?</h2>
+        </div>
+        <button class="close-button" type="button" (click)="closeSearch()" aria-label="Close search">×</button>
+        <form (ngSubmit)="submitSearch()">
+          <label class="visually-hidden" for="global-search">Search services, forms, guides and updates</label>
+          <input id="global-search" name="q" [(ngModel)]="searchQuery" placeholder="Search services, forms, guides and updates" autofocus>
+          <button type="submit">Search <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="search-suggestions">
+          <span>Popular:</span>
+          <a routerLink="/services" fragment="representation">Make a representation</a>
+          <a routerLink="/understand-aarto">Demerit points</a>
+          <a routerLink="/contact" fragment="outlets">Service outlets</a>
+          <a routerLink="/tenders">Open tenders</a>
+          <a routerLink="/careers">Vacancies</a>
+        </div>
+      </div>
+    </section>
+  </div>
+}
+
+<main id="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<section class="footer-cta">
+  <div class="container footer-cta__inner">
+    <div><p class="eyebrow">Need direct assistance?</p><h2>Have your ID or notice number ready.</h2></div>
+    <div class="footer-cta__actions"><a routerLink="/contact">Contact RTIA</a><a href="https://online.aarto.gov.za/" target="_blank" rel="noopener">Open AARTO services ↗</a></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="rtia-logo.jpg" alt="RTIA">
+      <p>Promoting road traffic quality, safety and discipline through fair administrative adjudication.</p>
+      <span>Content updated {{ store.content().lastUpdated }}</span>
+    </div>
+    <div><h2>AARTO services</h2><a href="https://online.aarto.gov.za/" target="_blank" rel="noopener">Query an infringement</a><a href="https://online.aarto.gov.za/" target="_blank" rel="noopener">Pay an infringement</a><a routerLink="/services" fragment="nominate">Nominate a driver</a><a routerLink="/services" fragment="representation">Make a representation</a></div>
+    <div><h2>Information</h2><a routerLink="/understand-aarto">Understand AARTO</a><a routerLink="/resources">Forms and legislation</a><a routerLink="/news">News and updates</a><a routerLink="/about">About RTIA</a></div>
+    <div><h2>Opportunities</h2><a routerLink="/tenders">Tenders and procurement</a><a routerLink="/tenders" fragment="supplier-guide">Supplier guidance</a><a routerLink="/careers">Current vacancies</a><a routerLink="/careers" fragment="graduate-programme">Graduate programme</a></div>
+    <div><h2>Get help</h2><a routerLink="/contact">Contact RTIA</a><a routerLink="/contact" fragment="outlets">Find an outlet</a><a routerLink="/resources" fragment="faq">Frequently asked questions</a><a routerLink="/sitemap">Site map</a></div>
+  </div>
+  <div class="footer-legal"><div class="container"><p>© 2026 Road Traffic Infringement Agency. Prototype content for review.</p><nav><a routerLink="/resources">PAIA</a><a routerLink="/resources">POPIA</a><a routerLink="/resources">Privacy</a></nav></div></div>
+</footer>
+
+<a class="floating-help" routerLink="/contact" aria-label="Get help from RTIA"><span aria-hidden="true">?</span><b>Get help</b></a>
